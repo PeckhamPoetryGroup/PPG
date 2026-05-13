@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Peckham Poetry Group</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color: #000;
+    line-height: 1.6;
+  }
+
+  a { color: #0000EE; text-decoration: underline; }
+  a:visited { color: #551A8B; }
+  a:hover { color: #0000EE; }
+
+  /* Two-column Indexhibit layout */
+  #wrap {
+    display: flex;
+    min-height: 100vh;
+    max-width: 960px;
+    padding: 40px 30px;
+    gap: 60px;
+  }
+
+  /* Left column — identity + nav */
+  #left {
+    width: 160px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  #site-title {
+    font-size: 11px;
+    font-weight: bold;
+    font-style: italic;
+    color: #0000EE;
+    text-transform: uppercase;
+    line-height: 1.4;
+    margin-bottom: 6px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+  }
+
+  #site-title:hover { text-decoration: underline; }
+
+  #slash-tag {
+    font-size: 10px;
+    color: #aaa;
+    letter-spacing: 0.05em;
+    margin-bottom: 28px;
+  }
+
+  #nav {
+    list-style: none;
+  }
+
+  #nav li {
+    margin-bottom: 4px;
+  }
+
+  #nav a {
+    font-size: 11px;
+    color: #0000EE;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  #nav a:hover { text-decoration: underline; }
+  #nav a.active { text-decoration: underline; }
+
+  /* Right column — content */
+  #right {
+    flex: 1;
+    padding-top: 2px;
+  }
+
+  /* Pages */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Archive */
+  .issue {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 32px;
+    align-items: flex-start;
+  }
+
+  .issue-text { flex: 1; }
+
+  .issue-img {
+    width: 120px;
+    flex-shrink: 0;
+  }
+
+  .issue-img img {
+    width: 120px;
+    height: 90px;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  .issue-img .no-img {
+    width: 120px;
+    height: 90px;
+    background: #f2f2f2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    color: #ccc;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .issue-num {
+    font-size: 10px;
+    color: #0000EE;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-weight: bold;
+  }
+
+  .issue-title {
+    display: block;
+    font-size: 12px;
+    font-style: italic;
+    font-weight: bold;
+    color: #0000EE;
+    text-transform: uppercase;
+    text-decoration: none;
+    margin-top: 2px;
+    line-height: 1.4;
+  }
+
+  .issue-title:hover { text-decoration: underline; }
+
+  .issue-desc {
+    margin-top: 6px;
+    font-size: 11px;
+    color: #444;
+    line-height: 1.65;
+    max-width: 460px;
+  }
+
+  .issue-fragment {
+    margin-top: 8px;
+    font-size: 11px;
+    font-style: italic;
+    color: #888;
+    padding-left: 10px;
+    border-left: 1px solid #ddd;
+    line-height: 1.7;
+    max-width: 400px;
+  }
+
+  /* Updates */
+  .update {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 24px;
+  }
+
+  .update-date {
+    width: 70px;
+    flex-shrink: 0;
+    font-size: 10px;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding-top: 1px;
+  }
+
+  .update-body { flex: 1; }
+
+  .update-head {
+    font-size: 11px;
+    font-weight: bold;
+    color: #0000EE;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 4px;
+  }
+
+  .update-text {
+    font-size: 11px;
+    color: #333;
+    line-height: 1.65;
+    max-width: 520px;
+  }
+
+  /* Writings */
+  .writing {
+    margin-bottom: 32px;
+  }
+
+  .writing-author {
+    font-size: 11px;
+    font-weight: bold;
+    color: #0000EE;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .writing-title {
+    font-size: 11px;
+    font-style: italic;
+    color: #444;
+    margin-top: 1px;
+  }
+
+  .writing-ref {
+    font-size: 10px;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-top: 1px;
+  }
+
+  .writing-text {
+    margin-top: 10px;
+    font-size: 11px;
+    line-height: 1.85;
+    color: #222;
+    max-width: 500px;
+    white-space: pre-line;
+  }
+
+  /* About */
+  .about-text {
+    max-width: 520px;
+  }
+
+  .about-text p {
+    font-size: 11px;
+    color: #222;
+    line-height: 1.75;
+    margin-bottom: 14px;
+  }
+
+  .about-text h2 {
+    font-size: 10px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #0000EE;
+    margin: 20px 0 7px 0;
+  }
+
+  .about-text .session-list {
+    font-size: 11px;
+    color: #333;
+    line-height: 2;
+  }
+</style>
+</head>
+<body>
+
+<div id="wrap">
+
+  <div id="left">
+    <a id="site-title" href="#" onclick="showPage('archive'); return false;">Peckham<br>Poetry<br>Group</a>
+    <div id="slash-tag">/// PPG</div>
+    <ul id="nav">
+      <li><a href="#" onclick="showPage('archive'); return false;" class="active" id="nav-archive">Archive</a></li>
+      <li><a href="#" onclick="showPage('updates'); return false;" id="nav-updates">Updates</a></li>
+      <li><a href="#" onclick="showPage('writings'); return false;" id="nav-writings">Writings</a></li>
+      <li><a href="#" onclick="showPage('about'); return false;" id="nav-about">About</a></li>
+    </ul>
+  </div>
+
+  <div id="right">
+
+    <!-- ARCHIVE -->
+    <div id="page-archive" class="page active">
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 008</span>
+          <a class="issue-title" href="ppg008.html">Vanishing Point</a>
+          <div class="issue-desc">"The unfolding of the desert is infinitely close to the timelessness of the film." "All techniques meant to unleash forces are techniques of disappearance." Baudrillard, Virilio.</div>
+        </div>
+        <div class="issue-img"><img src="PPG008_main.PNG" alt="PPG 008" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 008</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 007</span>
+          <a class="issue-title" href="ppg007.html">Waves</a>
+          <div class="issue-desc">The most open brief we've had. Waves: nautical, gravitational, quantum, interpersonal. Virginia Woolf, Eugenio Montale, Fernando Pessoa, Matsuo Bashō, Wisława Szymborska, Alice Oswald, Lucretius, and member work. "My yearnings burst into foam." "The useless trail of smoke behind a steamer."</div>
+          <div class="issue-fragment">"It can be the nautical kind. It can be gravity waves or wave-particle duality waves. It can be our interpersonal tidal forces."</div>
+        </div>
+        <div class="issue-img"><img src="PPG007_main.png" alt="PPG 007" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 007</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 006</span>
+          <a class="issue-title" href="ppg006.html">Weird and Wayward Sisters</a>
+          <div class="issue-desc">Rebecca Tamas, thesunthesunthesun. Hexes, spells, and the occult feminine in poetry. Women poets working at the edges of the permissible, in language, in form, in subject.</div>
+        </div>
+        <div class="issue-img"><img src="PPG006_Main.jpg" alt="PPG 006" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 006</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 005</span>
+          <a class="issue-title" href="ppg005.html">Modernism and Mysticism</a>
+          <div class="issue-desc">AE's transcendent visions, Natural Magic, the Theosophists, The Quest Periodical. Dylan Thomas, Eva Gore-Booth. Surrealism, automatic writing, the unconscious as creative space. Rilke: "You must change your life."</div>
+        </div>
+        <div class="issue-img"><img src="PPG005_Main.png" alt="PPG 005" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 005</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 004</span>
+          <a class="issue-title" href="ppg004.html">The Margins of Modernism</a>
+          <div class="issue-desc">Langston Hughes, "Paterson, the Strike," Mina Loy, Tender Buttons, almost-modernists.</div>
+        </div>
+        <div class="issue-img"><img src="PPG004_Main.png" alt="PPG 004" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 004</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 003</span>
+          <a class="issue-title" href="ppg003.html">The Winter Evening Settles Down</a>
+          <div class="issue-desc">Desert places, vacant lots, who'd walk in this bleak place.</div>
+        </div>
+        <div class="issue-img"><img src="PPG003_Candle.jpeg" alt="PPG 003" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 003</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 002</span>
+          <a class="issue-title" href="ppg002.html">Détournement, Collage and Desire</a>
+          <div class="issue-desc">"Take a newspaper. Take a pair of scissors..." Poetry as assemblage. Tristan Tzara, Dadaism, Détournement, the Cut-Up Method. Amy Gillies.</div>
+        </div>
+        <div class="issue-img"><img src="PPG_002Main.PNG" alt="PPG 002" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 002</div>'"></div>
+      </div>
+
+      <div class="issue">
+        <div class="issue-text">
+          <span class="issue-num">PPG 001</span>
+          <a class="issue-title" href="ppg001.html">"The Image is More Than an Idea. It is a Vortex..."</a>
+          <div class="issue-desc">Where it began. The poetic image as a charged, compressed unit of meaning. Ezra Pound, Imagism. Instant perception, condensation, the vortex.</div>
+          <div class="issue-fragment">"The apparition of these faces in the crowd;<br>Petals on a wet, black bough."</div>
+        </div>
+        <div class="issue-img"><img src="PPG001_groupcandle.PNG" alt="PPG 001" onerror="this.parentNode.innerHTML='<div class=no-img>PPG 001</div>'"></div>
+      </div>
+
+    </div>
+
+    <!-- UPDATES -->
+    <div id="page-updates" class="page">
+
+      <div class="update">
+        <div class="update-date">May 2025</div>
+        <div class="update-body">
+          <div class="update-head">This website.</div>
+          <div class="update-text">PPG is 8 sessions old. We're putting the archive online. Material will be added as it comes in — session notes, fragments, photos, member writing. If you'd like to join the group or receive a copy of a pack, <a href="mailto:">get in touch.</a></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- WRITINGS -->
+    <div id="page-writings" class="page">
+
+      <div class="writing">
+        <div class="writing-author">Ed Roffe</div>
+        <div class="writing-title">"I Saw You Wave"</div>
+        <div class="writing-ref">PPG 007 — Waves</div>
+        <div class="writing-text">[poem text to be added]</div>
+      </div>
+
+      <div class="writing">
+        <div class="writing-author">Ed Roffe</div>
+        <div class="writing-title">"Grey-Blue"</div>
+        <div class="writing-ref">PPG 007 — Waves</div>
+        <div class="writing-text">[poem text to be added]</div>
+      </div>
+
+      <div class="writing" style="color:#bbb;">
+        <div style="font-size:10px; text-transform:uppercase; letter-spacing:0.08em;">Member writing added as it comes in. Written something at or around a PPG session? <a href="mailto:">Send it.</a></div>
+      </div>
+
+    </div>
+
+    <!-- ABOUT -->
+    <div id="page-about" class="page">
+      <div class="about-text">
+
+        <h2>What is PPG</h2>
+        <p>Peckham Poetry Group is a small, intimate poetry and creative reading group. Each session is a deep dive into a specific theme, movement, or poetic idea — often rooted in modernism, mysticism, fragmentation, or experimental form.</p>
+        <p>Sessions are built around carefully curated packs of primary texts — often original scans where possible. Participants encounter the poems directly. The atmosphere is intimate, candlelit, unhurried.</p>
+
+        <h2>Format</h2>
+        <p>Lights dimmed. LED candles. A microphone and amp passed between participants. A free write, followed by reading back. The printed pack is the object for the evening. No prior knowledge required.</p>
+
+        <h2>Get involved</h2>
+        <p>Sessions announced via mailing list and <a href="https://www.instagram.com/" target="_blank">Instagram.</a> To join, receive past packs, or submit writing — <a href="mailto:">get in touch.</a></p>
+        <p>The full PDF packs are not hosted here, but they exist and you can have one.</p>
+
+        <h2>Sessions to date</h2>
+        <div class="session-list">
+          PPG 001 — "The Image is More Than an Idea. It is a Vortex..."<br>
+          PPG 002 — Détournement, Collage and Desire<br>
+          PPG 003 — The Winter Evening Settles Down<br>
+          PPG 004 — The Margins of Modernism<br>
+          PPG 005 — Modernism and Mysticism<br>
+          PPG 006 — Weird and Wayward Sisters<br>
+          PPG 007 — Waves<br>
+          PPG 008 — Vanishing Point
+        </div>
+
+      </div>
+    </div>
+
+  </div><!-- /right -->
+
+</div><!-- /wrap -->
+
+<script>
+  function showPage(name) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById('page-' + name).classList.add('active');
+    document.querySelectorAll('#nav a').forEach(a => a.classList.remove('active'));
+    document.getElementById('nav-' + name).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
